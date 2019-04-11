@@ -24,7 +24,7 @@ Unterbrechungsanforderungen -> setzt eine Flag -> Ruft die zugehörige Interrupt
       
     **Sub-Priority**: Sind von 2 Interrupts die Preemption-Priority gleich, wird die Sub-Priority verglichen. Je niedriger desto höhere Priorität.  
       
-    Da man insgesamt 4 bit verteilen kann gibt es 4 Gruppen:
+    Da man insgesamt 4 bit verteilen kann gibt es 4 Gruppen:  
     |Gruppe|\|\||Preemption|Sub Priority|
     |---|---|---|---|
     |group0| \|\||0 bits for preemption|4 bits for sub priority|
