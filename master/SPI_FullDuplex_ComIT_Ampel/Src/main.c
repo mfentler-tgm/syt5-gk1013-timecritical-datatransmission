@@ -38,6 +38,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <stdbool.h>
 
 /** @addtogroup STM32F4xx_HAL_Examples
   * @{
@@ -58,7 +59,7 @@
 SPI_HandleTypeDef SpiHandle;
 
 /* Buffer used for transmission */
-uint8_t aTxBuffer[] = "Message from our SPI";
+uint8_t aTxBuffer[] = "\nMessage from our SPI";
 
 /* Buffer used for reception */
 uint8_t aRxBuffer[BUFFERSIZE];
@@ -67,7 +68,7 @@ uint8_t aRxBuffer[BUFFERSIZE];
 static void SystemClock_Config(void);
 static void Error_Handler(void);
 static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength);
-
+static void EXTILine0_Config(void);
 /* Private functions ---------------------------------------------------------*/
 
 static int outputPin = GPIO_PIN_1;
@@ -81,7 +82,6 @@ static int states[6][3] = {
 };
 
 void setupOutputPin(int pin);
-
 
 /**
   * @brief  Main program
@@ -99,6 +99,7 @@ int main(void)
   HAL_Init();
    __HAL_RCC_GPIOC_CLK_ENABLE();
 
+  /* BEGIN -- SETTINGS FOR AMPEL -- */
 
   /* Configure LED3, LED4, LED5 and LED6 */
   BSP_LED_Init(LED3);
@@ -107,12 +108,6 @@ int main(void)
 
   setupOutputPin(outputPin);
 
- /* Configure LED3, LED4, LED5 and LED6 */
- /* BSP_LED_Init(LED3);
-  BSP_LED_Init(LED4);
-  BSP_LED_Init(LED5);
-  BSP_LED_Init(LED6);*/
-
   /* Configure the system clock to 168 MHz */
   SystemClock_Config();
  
@@ -120,6 +115,7 @@ int main(void)
   HAL_NVIC_SetPriority(EXTI0_IRQn, 2, 0);
   HAL_NVIC_EnableIRQ(EXTI0_IRQn);
 
+  /* END -- SETTINGS FOR AMPEL -- */
 
   /*##-1- Configure the SPI peripheral #######################################*/
   /* Set the SPI parameters */
@@ -161,6 +157,8 @@ int main(void)
     BSP_LED_Off(LED3);
 #endif /* MASTER_BOARD */
 
+  setupOutputPin(outputPin);
+
   /*##-2- Start the Full Duplex Communication process ########################*/  
   /* While the SPI in TransmitReceive process, user can transmit data through 
      "aTxBuffer" buffer & receive data through "aRxBuffer" */
@@ -172,7 +170,7 @@ int main(void)
 
   /*##-3- Wait for the end of the transfer ###################################*/  
   /*  Before starting a new communication transfer, you need to check the current   
-      state of the peripheral; if it’s busy you need to wait for the end of current
+      state of the peripheral; if itï¿½s busy you need to wait for the end of current
       transfer before starting a new one.
       For simplicity reasons, this example is just waiting till the end of the 
       transfer, but application may perform other tasks while transfer operation
@@ -193,7 +191,6 @@ int main(void)
   {
   }
 }
-
 void setupOutputPin(int pin) {
     GPIO_InitTypeDef GPIO_InitStruct;
     GPIO_InitStruct.Pin = pin;
@@ -204,7 +201,7 @@ void setupOutputPin(int pin) {
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
     HAL_GPIO_WritePin(GPIOC, pin, GPIO_PIN_RESET);
 }
-/**
+
 void setLed(int led, bool state) {
     if (state) {
         BSP_LED_On(led);
@@ -297,21 +294,21 @@ void handleSendState() {
         ms = 0;
     }
 }
-*/
 
-
+void HAL_SYSTICK_Callback(void) {
+    handleStateMachine();
+    handleSendState();
+}
 /**
   * @brief  This function is executed in case of error occurrence.
   * @param  None
   * @retval None
   */
-static void Error_Handler(void)
-{
-  /* Turn LED5 on */
-  BSP_LED_On(LED5);
-  while(1)
-  {
-  }
+static void Error_Handler(void) {
+    /* Turn LED5 on */
+    setWantState(YellowBlinking);
+    while (1) {
+    }
 }
 
 /**
@@ -457,13 +454,6 @@ void assert_failed(uint8_t* file, uint32_t line)
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****
  * /
  */
-
-
-
-void HAL_SYSTICK_Callback(void) {
-    handleStateMachine();
-    handleSendState();
-}
 
 
 
