@@ -58,7 +58,7 @@
 SPI_HandleTypeDef SpiHandle;
 
 /* Buffer used for transmission */
-uint8_t aTxBuffer[] = "****SPI - Two Boards communication based on Interrupt **** SPI Message ******** SPI Message ******** SPI Message ****";
+uint8_t aTxBuffer[] = "Message from our SPI";
 
 /* Buffer used for reception */
 uint8_t aRxBuffer[BUFFERSIZE];
@@ -204,7 +204,7 @@ void setupOutputPin(int pin) {
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
     HAL_GPIO_WritePin(GPIOC, pin, GPIO_PIN_RESET);
 }
-
+/**
 void setLed(int led, bool state) {
     if (state) {
         BSP_LED_On(led);
@@ -297,7 +297,7 @@ void handleSendState() {
         ms = 0;
     }
 }
-
+*/
 
 
 /**
