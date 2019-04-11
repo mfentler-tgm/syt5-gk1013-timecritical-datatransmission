@@ -120,7 +120,7 @@ int main(void)
   /*##-1- Configure the SPI peripheral #######################################*/
   /* Set the SPI parameters */
 
-  /*
+  
   SpiHandle.Instance               = SPIx;
   SpiHandle.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
   SpiHandle.Init.Direction         = SPI_DIRECTION_2LINES;
@@ -158,17 +158,17 @@ int main(void)
   
     BSP_LED_Off(LED3);
 #endif // MASTER_BOARD
-*/
+
 
   /*##-2- Start the Full Duplex Communication process ########################*/  
   /* While the SPI in TransmitReceive process, user can transmit data through 
      "aTxBuffer" buffer & receive data through "aRxBuffer" */
-  /*if(HAL_SPI_TransmitReceive_IT(&SpiHandle, (uint8_t*)aTxBuffer, (uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
+  if(HAL_SPI_TransmitReceive_IT(&SpiHandle, (uint8_t*)aTxBuffer, (uint8_t *)aRxBuffer, BUFFERSIZE) != HAL_OK)
   {
     // Transfer error in transmission process
     Error_Handler();
   }
-  */
+  
 
 
   /*##-3- Wait for the end of the transfer ###################################*/  
@@ -178,18 +178,18 @@ int main(void)
       For simplicity reasons, this example is just waiting till the end of the 
       transfer, but application may perform other tasks while transfer operation
       is ongoing. */  
-  /*while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
+  while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY)
   {
   } 
-  */
+  
 
   /*##-4- Compare the sent and received buffers ##############################*/
-  /*if(Buffercmp((uint8_t*)aTxBuffer, (uint8_t*)aRxBuffer, BUFFERSIZE))
+  if(Buffercmp((uint8_t*)aTxBuffer, (uint8_t*)aRxBuffer, BUFFERSIZE))
   {
     // Transfer error in transmission process
     Error_Handler();
   }
-  */
+  
   // Infinite loop
   while (1)
   {
@@ -420,13 +420,13 @@ void assert_failed(uint8_t* file, uint32_t line)
   *         add your own implementation.
   * @retval None
   */
-  /**
+  
  void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi)
 {
   // Turn LED5 on: Transfer error in reception/transmission process
   BSP_LED_On(LED5); 
 }
-*/
+
 
 /**
   * @brief  Compares two buffers.
@@ -435,7 +435,7 @@ void assert_failed(uint8_t* file, uint32_t line)
   * @retval 0  : pBuffer1 identical to pBuffer2
   *         >0 : pBuffer1 differs from pBuffer2
   */
-  /*
+  
 static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength)
 {
   while (BufferLength--)
@@ -452,7 +452,7 @@ static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferL
 }
 
 #ifdef  USE_FULL_ASSERT
-*/
+
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -460,7 +460,7 @@ static uint16_t Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferL
   * @param  line: assert_param error line source number
   * @retval None
   */
-  /*
+  
 void assert_failed(uint8_t* file, uint32_t line)
 { 
   // User can add his own implementation to report the file name and line number,
