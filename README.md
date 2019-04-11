@@ -26,7 +26,7 @@ Unterbrechungsanforderungen -> setzt eine Flag -> Ruft die zugehörige Interrupt
       
     Da man insgesamt 4 bit verteilen kann gibt es 4 Gruppen:  
     |Gruppe|\|\||Preemption|Sub Priority|
-    |---|---|---|---|
+    | --- | --- | --- | --- |
     |group0| \|\||0 bits for preemption|4 bits for sub priority|
     |group1|\|\||1 bits for preemption|3 bits for sub priority|
 e    |group2|\|\||2 bits for preemption|2 bits for sub priority|
