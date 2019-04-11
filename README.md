@@ -25,13 +25,13 @@ Unterbrechungsanforderungen -> setzt eine Flag -> Ruft die zugehörige Interrupt
     **Sub-Priority**: Sind von 2 Interrupts die Preemption-Priority gleich, wird die Sub-Priority verglichen. Je niedriger desto höhere Priorität.  
       
     Da man insgesamt 4 bit verteilen kann gibt es 4 Gruppen:  
-    |Gruppe|\|\||Preemption|Sub Priority|
-    | ------------- |:----:|:-------------:|:-----:|
-    |group0| \|\||0 bits for preemption|4 bits for sub priority|
-    |group1|\|\||1 bits for preemption|3 bits for sub priority|
-e    |group2|\|\||2 bits for preemption|2 bits for sub priority|
-    |group3|\|\||3 bits for preemption|1 bits for sub priority|
-    |group4|\|\||4 bits for preemption|0 bits for sub priority|
+    |Gruppe|\|\||Preemption|Sub Priority|  
+    | ------------- |:----:|:-------------:|:-----:|  
+    |group0| \|\||0 bits for preemption|4 bits for sub priority|  
+    |group1|\|\||1 bits for preemption|3 bits for sub priority|  
+    |group2|\|\||2 bits for preemption|2 bits for sub priority|  
+    |group3|\|\||3 bits for preemption|1 bits for sub priority|  
+    |group4|\|\||4 bits for preemption|0 bits for sub priority|  
 
 + __Was ist ein SPI-Bus und wie ist dieser aufgebaut?__  
 Bussystem, bestehend aus 3 Leitungen für synchrone, serielle Kommunikation.  
