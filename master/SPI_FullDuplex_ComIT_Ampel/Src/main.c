@@ -159,7 +159,6 @@ int main(void)
     BSP_LED_Off(LED3);
 #endif // MASTER_BOARD
 */
-  setupOutputPin(outputPin);
 
   /*##-2- Start the Full Duplex Communication process ########################*/  
   /* While the SPI in TransmitReceive process, user can transmit data through 
