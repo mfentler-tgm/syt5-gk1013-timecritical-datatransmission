@@ -6,8 +6,31 @@ Die detaillierte [Aufgabenstellung](TASK.md) beschreibt die notwendigen Schritte
 ## Recherche
 
 ## Implementierung
+Die Übung wurde mit einem STM32F4 als Master und einem Arduino Mega als Slave realisiert.
 
-### Fragestellungen für das Protokoll
+### Konsolenbasiertes Deployment
+Um aus der Console zu deployen wird ein MakeFile benötigt. Mit folgendem Befehl kann dann das gewünschte Programm auf den Mikrocontroller geflasht werden:
+```bash
+make clean flash PROJ=<linkToDir>
+```
+
+### Kommunikation über SPI
+Damit die Kommunikation über den SPI Bus funktionieren kann, müssen die zwei Geräte logischerweise miteinander verbunden werden. Dazu wurden Male/Female Jumper Kabel verwendet. Insgesamt werden 3 Kabel für folgende Verbindungen benötigt:
+- CLK (Seriell Clock)  
+- MISO (MasterInSlaveOut)  
+- MOSi (MasterOutSlaveIn)
+
+Beim __STM32F4__ wurden folgende GPIO Ports verwendet (Quelle siehe[3]):
+- CLK auf PB13  
+- MISO auf PB14
+- MOSI auf PB15
+
+Beim __Ardunio__ folgende Ports:  
+- CLK auf 52
+- MISO auf 50
+- MOSI auf 51
+
+## Fragestellungen für das Protokoll
 + __Was ist die Clock__  
 Ist ein Timer, der festlegt in welchem Intervall der Prozessor Instruktionen ausführt. Operations/Second = Clock Speed  
 + __Was sind Interrupts__  
@@ -65,4 +88,4 @@ Sheduler des OS orientiert sich nach der Thread-Deadline und priorisiert die Thr
 ## Quellen
 [1] [http://micromouseusa.com/?p=279](http://micromouseusa.com/?p=279)  
 [2] [http://www.mikrocontroller-programmierung.de/](http://www.mikrocontroller-programmierung.de/)
-
+[3] [https://github.com/PaxInstruments/STM32CubeF4/tree/master/Projects/STM32F4-Discovery/Examples/SPI/SPI_FullDuplex_ComIT](https://github.com/PaxInstruments/STM32CubeF4/tree/master/Projects/STM32F4-Discovery/Examples/SPI/SPI_FullDuplex_ComIT)
