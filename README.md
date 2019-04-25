@@ -63,6 +63,38 @@ int runStep(int state) {
 
 ### Programm - Slave
 
+Das Programm wurde in der Arduino IDE entwickelt, da der Slave auf einem Arduino-Board läuft.
+
+#### Setup
+
+Zuerst wird eine serielle Übertragung gestartet und der Pin-Modus auf MISO (Master In Slave Out) gesetzt.
+```c
+Serial.begin (9600);  
+ // have to send on master in, *slave out*
+pinMode(MISO, OUTPUT);
+```
+Daraufhin wird SPI im Slave-Modus aktiviert und die Flag auf false gesetzt und ein Buffer für einkommende Nachrichten geleert.
+```c
+// turn on SPI in slave mode
+  SPCR |= _BV(SPE);
+
+  // get ready for an interrupt
+  pos = 0;   // buffer empty
+  process_it = false;
+  for (int i = 0; i < 100; i++) {
+    buf[i] = 0;
+  }
+```
+Abschließend wird eine SPI Interrupt-Routine anghängt.
+
+```c
+SPI.attachInterrupt();
+Serial.println("Starting SPI");
+```
+
+
+
+
 ## Fragestellungen für das Protokoll
 + __Was ist die Clock__  
 Ist ein Timer, der festlegt in welchem Intervall der Prozessor Instruktionen ausführt. Operations/Second = Clock Speed  
@@ -75,11 +107,11 @@ Unterbrechungsanforderungen -> setzt eine Flag -> Ruft die zugehörige Interrupt
     MOV IP1 #100b;
     ```
     Beim STM32 stehen für Interrupts 4 Bit zur Verfügung. Diese ganzen 4 Bit müssen auf die Preemption-Priority und Sub-Priority verteilt werden.  
-      
+
     **Preemption-Priority**: Je niedriger die Bits desto höher die Priorität  
-      
+
     **Sub-Priority**: Sind von 2 Interrupts die Preemption-Priority gleich, wird die Sub-Priority verglichen. Je niedriger desto höhere Priorität.  
-      
+
     Da man insgesamt 4 bit verteilen kann gibt es 4 Gruppen:  
     | Gruppe | Preemption | Sub Priority |
     | ------------- |:----:|:-------------:|:-----:|
@@ -95,7 +127,7 @@ Bussystem, bestehend aus 3 Leitungen für synchrone, serielle Kommunikation.
     - MOSI (MasterOut - SlaveIn)
     - MISO (MasterIn - SlaveOut)
     - SCLK (Seriell Clock): Gibt Kommunikationstakt vor.  
-    
+
     Weiters gibt es noch die SS (SlaveSelect) Verbindung. Die kann benutzt werden um einem Slave zu signalisieren, dass jetzt eine neue Nachricht kommt oder das er jetzt selbst sprechen darf.
 + __Welche Vorteile ergeben sich bei der Verwendung eines Kommunikationsbusses?__  
 1:N Verbindung (Master : n Slaves), 1:1 Verbindung (Master : Slave) auch möglich  
