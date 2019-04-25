@@ -30,6 +30,21 @@ Beim __Ardunio__ folgende Ports:
 - MISO auf 50
 - MOSI auf 51
 
+### Programm - Master
+Um das Programm zu erstellen wurden die zwei vorhandenen Programme "Ampelsteuerung" und "SPI_FullDuplexComIT" zusammengefügt.  
+
+Im SPI Programm ist bereits die Kommunikation mit dem Slave eingerichtet. Dabei wird folgende Methode benützt. Dabei wird die Nachricht an den Slave über einen Buffer gesendet.
+```c
+HAL_SPI_TransmitReceive_IT(&SpiHandle, (uint8_t*)aTxBuffer, (uint8_t *)aRxBuffer, BUFFERSIZE)
+```
+Anschließend wird gewartet, bis der Nachrichtentransfer beendet wurde.
+```c
+while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY){}
+```
+Über die selbe Methode kann auch eine Nachricht vom Slave erhalten werden.
+
+### Programm - Slave
+
 ## Fragestellungen für das Protokoll
 + __Was ist die Clock__  
 Ist ein Timer, der festlegt in welchem Intervall der Prozessor Instruktionen ausführt. Operations/Second = Clock Speed  
