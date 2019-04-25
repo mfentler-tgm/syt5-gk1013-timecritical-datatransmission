@@ -43,6 +43,24 @@ while (HAL_SPI_GetState(&SpiHandle) != HAL_SPI_STATE_READY){}
 ```
 Über die selbe Methode kann auch eine Nachricht vom Slave erhalten werden.
 
+Die Ampelsteuerung wird mit der Methode 'runStep' die gewünschte LED angesteuert.
+```c
+int runStep(int state) {
+    static bool yellowBlinkingState = false;
+    switch (state) {
+        case 0:
+            setState(true, false, false);
+            setWantState(Red);
+            return 8000;
+        case 1:
+            setState(true, true, false);
+            setWantState(RedYellow);
+            return 1000;
+        ...
+    }
+}
+```
+
 ### Programm - Slave
 
 ## Fragestellungen für das Protokoll
